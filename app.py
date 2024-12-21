@@ -1,11 +1,14 @@
 import os
 import requests
+
+# If your code (or an old library) needs `url_quote`, we get it here:
+from urllib.parse import quote as url_quote
+
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
 # Hugging Face Inference API Settings
-# Add your HF token in Render's environment variables (HUGGINGFACE_API_TOKEN=hf_***)
 HUGGINGFACE_API_TOKEN = os.environ.get('HUGGINGFACE_API_TOKEN', '')
 API_URL = "https://api-inference.huggingface.co/models/OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5"
 
@@ -20,7 +23,9 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    # Weighted scoring logic
+    """
+    Weighted scoring logic for AI readiness sections.
+    """
     questions_by_section = {
         "Organizational Strategy and Readiness": {
             "questions": ["org_q1", "org_q2"],
@@ -75,6 +80,9 @@ def submit():
 
 @app.route('/chat', methods=['POST'])
 def chat():
+    """
+    A chat endpoint calling Hugging Face Inference API (OpenAssistant model).
+    """
     user_message = request.form.get('message', '').strip()
     if not user_message:
         return jsonify({"answer": "Please ask a question."})
@@ -94,13 +102,11 @@ def chat():
     }
 
     response = requests.post(API_URL, headers=headers, json=data)
-
     print("DEBUG: HF API response status:", response.status_code)
     print("DEBUG: HF API response text:", response.text)
 
     if response.status_code == 200:
         result = response.json()
-        # Make sure to check for "generated_text" in the returned list
         if isinstance(result, list) and result and "generated_text" in result[0]:
             answer = result[0]["generated_text"]
             final_answer = answer.replace(prompt, "").strip()
@@ -109,3 +115,11 @@ def chat():
             return jsonify({"answer": "No valid response from model."})
     else:
         return jsonify({"answer": f"Error: {response.status_code}, {response.text}"}), 500
+
+# Example usage of `url_quote` from urllib.parse if needed:
+# def some_function():
+#     encoded = url_quote("This is a test string with spaces & special chars!")
+#     print(encoded)  # e.g. "This%20is%20a%20test%20string%20with%20spaces%20%26%20special%20chars%21"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
