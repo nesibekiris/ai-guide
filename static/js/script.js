@@ -63,22 +63,21 @@ document.addEventListener('DOMContentLoaded', () => {
    * If the final section is shown, compute overall readiness.
    */
   function showSection(id) {
-    // Hide every section
-    sectionIds.forEach(secId => {
-      const sec = document.getElementById(secId);
-      if (sec) sec.style.display = 'none';
-    });
+  // Hide all sections
+  sectionIds.forEach(secId => {
+    const sec = document.getElementById(secId);
+    if (sec) sec.style.display = 'none';
+  });
 
-    // Show the chosen section
-    const targetSec = document.getElementById(id);
-    if (targetSec) targetSec.style.display = 'block';
+  // Show chosen section
+  const target = document.getElementById(id);
+  if (target) target.style.display = 'block';
 
-    // If this is the final section, compute final readiness
-    if (id === 'finalSection') {
-      computeFinalReadiness();
-    }
+  // If finalSection is chosen, compute final readiness
+  if (id === 'finalSection') {
+    computeFinalReadiness();
   }
-
+}
   /**
    * Calculates the partial score for the specified section (1..9),
    * displays an R/Y/G indicator, and reveals the “Next” button.
