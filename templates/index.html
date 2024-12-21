@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Readiness Checklist</title>
+
+  <!-- Link to our new style.css -->
   <link rel="stylesheet" href="/static/css/style.css">
 
-  <!-- Chart.js via CDN -->
+  <!-- Include Chart.js via CDN (Navy-Blue Refresh) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Our custom JS -->
+  <!-- Our custom JS (ensure it includes the logic for multi-section flow and radar chart) -->
   <script defer src="/static/js/script.js"></script>
-</head>
-
 </head>
 <body>
   <header>
@@ -330,6 +330,32 @@
   <button type="button" class="calc-section-btn" data-section="9">Calculate Section Score</button>
   <button class="next-btn" data-next="finalSection" style="display: none;">Finalize Checklist</button>
 </section>
+     <!-- FINAL SECTION: Radar Chart & Overall Score -->
+    <section class="results-section" id="finalSection" style="display: none;">
+      <h2>Your Overall AI Readiness</h2>
+      <p class="final-note">
+        Here is your total readiness score across all sections, along with a radar chart
+        illustrating strengths and weaknesses.
+      </p>
+      <div id="compositeScoreContainer">
+        <h3>Overall Readiness: <span id="compositeScoreDisplay"></span></h3>
+        <p id="indicatorDisplay"></p>
+      </div>
+      <canvas id="radarChart" width="400" height="400"></canvas>
+      <button class="next-btn" data-next="chatContainer">Go to Chat</button>
+    </section>
+
+    <!-- CHAT SECTION -->
+    <section class="chat-section" id="chatContainer" style="display: none;">
+      <h2>Chat with the AI Advisor</h2>
+      <p>Have more questions or need advice? Ask below!</p>
+      <input type="text" id="chatInput" placeholder="Type your question..." />
+      <button id="chatBtn">Send</button>
+      <div id="chatResponse"></div>
+    </section>
+  </main>
+</body>
+</html>
 
   </main>
 </body>
