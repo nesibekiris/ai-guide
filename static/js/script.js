@@ -1,147 +1,144 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Section navigation
-  const nextButtons = document.querySelectorAll('.next-btn');
-  const calcButtons = document.querySelectorAll('.calc-section-btn');
 
-  // Track scores per section
-  const sectionScores = {}; // e.g. sectionScores[1] = {score: 0.8, ...}
-
-  // The order of sections (IDs must match your HTML):
+  // An array of all section IDs in order:
   const sectionIds = [
     'introSection',
-    'section1', 'section2', 'section3', 'section4', 'section5', 
-    'section6', 'section7', 'section8', 'section9',
+    'section1', 'section2', 'section3', 'section4', 
+    'section5', 'section6', 'section7', 'section8', 'section9',
     'finalSection', 'chatContainer'
   ];
 
-  // Initially show only introSection
+  // Initially show only the intro section
   showSection('introSection');
 
+  // Track scores per section
+  const sectionScores = {};
+
+  // Handle next buttons (navigate between sections)
+  const nextButtons = document.querySelectorAll('.next-btn');
   nextButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', () => {
       const nextId = btn.getAttribute('data-next');
       showSection(nextId);
     });
   });
 
+  // Handle calculate score buttons
+  const calcButtons = document.querySelectorAll('.calc-section-btn');
   calcButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', () => {
       const sectionNumber = btn.getAttribute('data-section');
       calculateSectionScore(sectionNumber);
     });
   });
 
+  // Chat functionality
   const chatBtn = document.getElementById('chatBtn');
   const chatInput = document.getElementById('chatInput');
   const chatResponse = document.getElementById('chatResponse');
 
-  chatBtn.addEventListener('click', () => {
-    const message = chatInput.value.trim();
-    if (!message) return;
-    const formData = new FormData();
-    formData.append('message', message);
-    fetch('/chat', {
-      method: 'POST',
-      body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-      chatResponse.textContent = data.answer || 'No response';
-    })
-    .catch(err => {
-      chatResponse.textContent = 'Chat error: ' + err;
+  if (chatBtn) {
+    chatBtn.addEventListener('click', () => {
+      const message = chatInput.value.trim();
+      if (!message) return;
+      const formData = new FormData();
+      formData.append('message', message);
+      fetch('/chat', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        chatResponse.textContent = data.answer || 'No response';
+      })
+      .catch(err => {
+        chatResponse.textContent = 'Chat error: ' + err;
+      });
     });
-  });
+  }
 
-  // Show a particular section and hide others
   function showSection(id) {
+    // Hide all sections
     sectionIds.forEach(secId => {
       const sec = document.getElementById(secId);
-      if (sec) {
-        if (secId === id) {
-          sec.style.display = 'block';
-        } else {
-          sec.style.display = 'none';
-        }
-      }
+      if (sec) sec.style.display = 'none';
     });
 
-    // If the finalSection is shown, that means all sections done
+    // Show the requested section
+    const target = document.getElementById(id);
+    if (target) target.style.display = 'block';
+
+    // If we are showing the finalSection, compute final readiness
     if (id === 'finalSection') {
       computeFinalReadiness();
     }
   }
 
-function calculateSectionScore(sectionNumber) {
-  const form = document.getElementById(`formSection${sectionNumber}`);
-  if (!form) return;
+  function calculateSectionScore(sectionNumber) {
+    const form = document.getElementById(`formSection${sectionNumber}`);
+    const scoreDiv = document.getElementById(`scoreSection${sectionNumber}`);
+    const parentSec = document.getElementById(`section${sectionNumber}`);
 
-  const inputs = form.querySelectorAll('input[type=radio]:checked');
-  let score = 0;
-  let totalQuestions = 0;
+    if (!form || !scoreDiv || !parentSec) return;
 
-  inputs.forEach(input => {
-    totalQuestions++;
-    if (input.value === 'Yes') score += 1;
-    else if (input.value === 'Partial') score += 0.5;
-    // No = 0
-  });
+    const checkedInputs = form.querySelectorAll('input[type=radio]:checked');
+    let score = 0;
+    let totalQuestions = 0;
 
-  let normalized = 0;
-  let message = '';
+    checkedInputs.forEach(input => {
+      totalQuestions++;
+      if (input.value === 'Yes') score += 1;
+      else if (input.value === 'Partial') score += 0.5;
+      // No = 0 points
+    });
 
-  if (totalQuestions > 0) {
-    normalized = score / totalQuestions;
-    message = `Section Score: ${(normalized * 100).toFixed(1)}%`;
-  } else {
-    // No questions in this section
-    normalized = 0;
-    message = "No questions found for this section. Defaulting to 0%.";
-  }
+    let normalized = 0;
+    let message = '';
 
-  sectionScores[sectionNumber] = normalized;
+    if (totalQuestions > 0) {
+      normalized = score / totalQuestions;
+      message = `Section Score: ${(normalized * 100).toFixed(1)}%`;
+    } else {
+      // No questions found in this section
+      normalized = 0;
+      message = "No questions found for this section. Defaulting to 0%.";
+    }
 
-  const scoreDiv = document.getElementById(`scoreSection${sectionNumber}`);
-  scoreDiv.style.display = 'block';
-  scoreDiv.innerHTML = `<p>${message}</p>`;
+    sectionScores[sectionNumber] = normalized;
 
-  // Indicator
-  const indicator = document.createElement('span');
-  indicator.classList.add('score-indicator');
-  const pct = normalized * 100;
-  if (pct >= 80) {
-    indicator.textContent = 'Indicator: Green (Strong Readiness)';
-    indicator.classList.add('green');
-  } else if (pct >= 50) {
-    indicator.textContent = 'Indicator: Yellow (Moderate Readiness)';
-    indicator.classList.add('yellow');
-  } else {
-    indicator.textContent = 'Indicator: Red (Needs Improvement)';
-    indicator.classList.add('red');
-  }
-  scoreDiv.appendChild(indicator);
+    // Display score and indicator
+    scoreDiv.style.display = 'block';
+    scoreDiv.innerHTML = `<p>${message}</p>`;
+    const indicator = document.createElement('span');
+    indicator.classList.add('score-indicator');
+    const pct = normalized * 100;
+    if (pct >= 80) {
+      indicator.textContent = 'Indicator: Green (Strong Readiness)';
+      indicator.classList.add('green');
+    } else if (pct >= 50) {
+      indicator.textContent = 'Indicator: Yellow (Moderate Readiness)';
+      indicator.classList.add('yellow');
+    } else {
+      indicator.textContent = 'Indicator: Red (Needs Improvement)';
+      indicator.classList.add('red');
+    }
+    scoreDiv.appendChild(indicator);
 
-  // Show next button
-  const parentSec = document.getElementById(`section${sectionNumber}`);
-  const nextBtn = parentSec.querySelector('.next-btn');
-  if (nextBtn) {
-    nextBtn.style.display = 'inline-block';
-  }
-}
-    // If the sectionNumber = 9 and user clicks next, we show finalSection
-    // handled by next button data-next attr
+    // After calculation, show the "Next" button if there is one
+    const nextBtn = parentSec.querySelector('.next-btn');
+    if (nextBtn) {
+      nextBtn.style.display = 'inline-block';
+    }
   }
 
   function computeFinalReadiness() {
-    // sections 1 to 9
-    let totalWeight = 9; // if each section is equally weighted
-    // If you had different weights, you'd sum them accordingly.
-    // For simplicity, let's assume equal weighting.
+    // Sections 1 to 9
     let sum = 0;
-    for (let i=1; i<=9; i++) {
+    let count = 9; // total number of sections scored
+    for (let i = 1; i <= 9; i++) {
       sum += sectionScores[i] || 0;
     }
-    const composite = sum / 9;
+    const composite = sum / count;
     const pct = composite * 100;
 
     const compositeScoreDisplay = document.getElementById('compositeScoreDisplay');
@@ -160,7 +157,6 @@ function calculateSectionScore(sectionNumber) {
       indicatorDisplay.style.color = 'red';
     }
 
-    // Create Radar Chart
     createRadarChart();
   }
 
