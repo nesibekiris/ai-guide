@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 # Hugging Face Inference API Settings
-# Make sure to set HUGGINGFACE_API_TOKEN in your Render environment variables.
+# Add your HF token in Render's environment variables (HUGGINGFACE_API_TOKEN=hf_***)
 HUGGINGFACE_API_TOKEN = os.environ.get('HUGGINGFACE_API_TOKEN', '')
 API_URL = "https://api-inference.huggingface.co/models/OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5"
 
@@ -20,7 +20,7 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    # Weighted scoring logic as before
+    # Weighted scoring logic
     questions_by_section = {
         "Organizational Strategy and Readiness": {
             "questions": ["org_q1", "org_q2"],
@@ -79,26 +79,30 @@ def chat():
     if not user_message:
         return jsonify({"answer": "Please ask a question."})
 
-    # Prompt for the OA model
-    prompt = f"You are an AI assistant helping with AI readiness. The user says: {user_message}\nPlease provide a helpful, concise suggestion."
+    # Build a prompt for the OA model
+    prompt = (
+        f"You are an AI assistant helping with AI readiness. "
+        f"The user says: {user_message}\n"
+        "Please provide a helpful, concise suggestion."
+    )
 
     data = {
-        "inputs": prompt
+        "inputs": prompt,
+        # You can tweak parameters if needed
+        "parameters": {
+            "max_new_tokens": 100,
+            "temperature": 0.7
+        }
     }
 
+    # Call the HF Inference API
     response = requests.post(API_URL, headers=headers, json=data)
-    if response.status_code == 200:
-        # The response from HF Inference API is usually a list of dicts with "generated_text"
-        result = response.json()
-        if isinstance(result, list) and "generated_text" in result[0]:
-            answer = result[0]["generated_text"]
-            # answer might include the prompt; you can strip it
-            final_answer = answer.replace(prompt, "").strip()
-            return jsonify({"answer": final_answer})
-        else:
-            return jsonify({"answer": "No response from model."})
-    else:
-        return jsonify({"answer": f"Error: {response.status_code}, {response.text}"}), 500
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    # Debug prints: check logs on Render
+    print("DEBUG: HF API response status:", response.status_code)
+    print("DEBUG: HF API response text:", response.text)
+
+    if response.status_code == 200:
+        result = response.json()
+        # Expected format: [ {"generated_text": "..."} ]
+        if isinstance(result, list) and result and "generated_tex
