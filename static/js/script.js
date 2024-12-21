@@ -152,39 +152,53 @@ document.addEventListener('DOMContentLoaded', () => {
    * across sections 1..9, display an indicator, and create the radar chart.
    */
   function computeFinalReadiness() {
-    // We have 9 main sections
-    let sum = 0;
-    for (let i = 1; i <= 9; i++) {
-      sum += sectionScores[i] || 0; // if not defined, default 0
-    }
-    const composite = sum / 9;
-    const pct = composite * 100;
+  // Summation of section scores
+  let sum = 0;
+  for (let i = 1; i <= 9; i++) {
+    sum += sectionScores[i] || 0;
+  }
+  const composite = sum / 9;
+  const pct = composite * 100;
 
-    const compositeScoreDisplay = document.getElementById('compositeScoreDisplay');
-    const indicatorDisplay = document.getElementById('indicatorDisplay');
+  // Display final numeric readiness
+  document.getElementById('compositeScoreDisplay').textContent = pct.toFixed(1) + '%';
 
-    // Show numeric readiness
-    compositeScoreDisplay.textContent = pct.toFixed(1) + '%';
-
-    // Color-coded indicator
-    if (pct >= 80) {
-      indicatorDisplay.textContent = 'Green (Strong Overall Readiness)';
-      indicatorDisplay.style.color = 'green';
-    } else if (pct >= 50) {
-      indicatorDisplay.textContent = 'Yellow (Moderate Overall Readiness)';
-      indicatorDisplay.style.color = 'goldenrod';
-    } else {
-      indicatorDisplay.textContent = 'Red (Needs Improvement)';
-      indicatorDisplay.style.color = 'red';
-    }
-
-    // Draw the radar chart
-    createRadarChart();
+  // Color-coded indicator
+  const indicatorDisplay = document.getElementById('indicatorDisplay');
+  if (pct >= 80) {
+    indicatorDisplay.textContent = 'Green (Strong Overall Readiness)';
+    indicatorDisplay.style.color = 'green';
+  } else if (pct >= 50) {
+    indicatorDisplay.textContent = 'Yellow (Moderate Overall Readiness)';
+    indicatorDisplay.style.color = 'goldenrod';
+  } else {
+    indicatorDisplay.textContent = 'Red (Needs Improvement)';
+    indicatorDisplay.style.color = 'red';
   }
 
-  function createRadarChart() {
-    const ctx = document.getElementById('radarChart');
-    if (!ctx) return; // just a safety check
+  // **This MUST be called to create the chart:**
+  createRadarChart();
+}
+
+function createRadarChart() {
+  const ctx = document.getElementById('radarChart');
+  if (!ctx) return; // Safety check, in case the element doesn't exist
+
+  // if there's an existing chart, destroy it
+  if (window.radarChart) {
+    window.radarChart.destroy();
+  }
+
+  window.radarChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      // ...
+    },
+    options: {
+      // ...
+    }
+  });
+}
 
     // Label each of the 9 sections
     const labels = [
