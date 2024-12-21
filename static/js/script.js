@@ -72,53 +72,62 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function calculateSectionScore(sectionNumber) {
-    // Example: sectionNumber = '1' means formSection1
-    const form = document.getElementById(`formSection${sectionNumber}`);
-    const inputs = form.querySelectorAll('input[type=radio]:checked');
+function calculateSectionScore(sectionNumber) {
+  const form = document.getElementById(`formSection${sectionNumber}`);
+  if (!form) return;
 
-    let score = 0;
-    let totalQuestions = 0;
+  const inputs = form.querySelectorAll('input[type=radio]:checked');
+  let score = 0;
+  let totalQuestions = 0;
 
-    inputs.forEach(input => {
-      totalQuestions++;
-      if (input.value === 'Yes') score += 1;
-      else if (input.value === 'Partial') score += 0.5;
-      // No = 0, so no addition
-    });
+  inputs.forEach(input => {
+    totalQuestions++;
+    if (input.value === 'Yes') score += 1;
+    else if (input.value === 'Partial') score += 0.5;
+    // No = 0
+  });
 
-    // Normalize score
-    const normalized = totalQuestions > 0 ? (score / totalQuestions) : 0;
-    sectionScores[sectionNumber] = normalized;
+  let normalized = 0;
+  let message = '';
 
-    // Display partial score + R/Y/G indicator
-    const scoreDiv = document.getElementById(`scoreSection${sectionNumber}`);
-    scoreDiv.style.display = 'block';
-    scoreDiv.innerHTML = `
-      <p>Section Score: ${(normalized*100).toFixed(1)}%</p>
-    `;
-    const indicator = document.createElement('span');
-    indicator.classList.add('score-indicator');
-    const pct = normalized*100;
-    if (pct >= 80) {
-      indicator.textContent = 'Indicator: Green (Strong Readiness)';
-      indicator.classList.add('green');
-    } else if (pct >= 50) {
-      indicator.textContent = 'Indicator: Yellow (Moderate Readiness)';
-      indicator.classList.add('yellow');
-    } else {
-      indicator.textContent = 'Indicator: Red (Needs Improvement)';
-      indicator.classList.add('red');
-    }
-    scoreDiv.appendChild(indicator);
+  if (totalQuestions > 0) {
+    normalized = score / totalQuestions;
+    message = `Section Score: ${(normalized * 100).toFixed(1)}%`;
+  } else {
+    // No questions in this section
+    normalized = 0;
+    message = "No questions found for this section. Defaulting to 0%.";
+  }
 
-    // After calculation, show next button for this section
-    const parentSec = document.getElementById(`section${sectionNumber}`);
-    const nextBtn = parentSec.querySelector('.next-btn');
-    if (nextBtn) {
-      nextBtn.style.display = 'inline-block';
-    }
+  sectionScores[sectionNumber] = normalized;
 
+  const scoreDiv = document.getElementById(`scoreSection${sectionNumber}`);
+  scoreDiv.style.display = 'block';
+  scoreDiv.innerHTML = `<p>${message}</p>`;
+
+  // Indicator
+  const indicator = document.createElement('span');
+  indicator.classList.add('score-indicator');
+  const pct = normalized * 100;
+  if (pct >= 80) {
+    indicator.textContent = 'Indicator: Green (Strong Readiness)';
+    indicator.classList.add('green');
+  } else if (pct >= 50) {
+    indicator.textContent = 'Indicator: Yellow (Moderate Readiness)';
+    indicator.classList.add('yellow');
+  } else {
+    indicator.textContent = 'Indicator: Red (Needs Improvement)';
+    indicator.classList.add('red');
+  }
+  scoreDiv.appendChild(indicator);
+
+  // Show next button
+  const parentSec = document.getElementById(`section${sectionNumber}`);
+  const nextBtn = parentSec.querySelector('.next-btn');
+  if (nextBtn) {
+    nextBtn.style.display = 'inline-block';
+  }
+}
     // If the sectionNumber = 9 and user clicks next, we show finalSection
     // handled by next button data-next attr
   }
