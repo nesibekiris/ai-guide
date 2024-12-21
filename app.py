@@ -79,7 +79,6 @@ def chat():
     if not user_message:
         return jsonify({"answer": "Please ask a question."})
 
-    # Build a prompt for the OA model
     prompt = (
         f"You are an AI assistant helping with AI readiness. "
         f"The user says: {user_message}\n"
@@ -88,21 +87,25 @@ def chat():
 
     data = {
         "inputs": prompt,
-        # You can tweak parameters if needed
         "parameters": {
             "max_new_tokens": 100,
             "temperature": 0.7
         }
     }
 
-    # Call the HF Inference API
     response = requests.post(API_URL, headers=headers, json=data)
 
-    # Debug prints: check logs on Render
     print("DEBUG: HF API response status:", response.status_code)
     print("DEBUG: HF API response text:", response.text)
 
     if response.status_code == 200:
         result = response.json()
-        # Expected format: [ {"generated_text": "..."} ]
-        if isinstance(result, list) and result and "generated_tex
+        # Make sure to check for "generated_text" in the returned list
+        if isinstance(result, list) and result and "generated_text" in result[0]:
+            answer = result[0]["generated_text"]
+            final_answer = answer.replace(prompt, "").strip()
+            return jsonify({"answer": final_answer})
+        else:
+            return jsonify({"answer": "No valid response from model."})
+    else:
+        return jsonify({"answer": f"Error: {response.status_code}, {response.text}"}), 500
