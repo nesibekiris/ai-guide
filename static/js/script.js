@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const compositeScoreDisplay = document.getElementById('compositeScoreDisplay');
   const indicatorDisplay = document.getElementById('indicatorDisplay');
 
-  // Submitting the checklist
+  // Submit the checklist
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(form);
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Sending a chat message
+  // Chat route
   chatBtn.addEventListener('click', () => {
     const message = chatInput.value.trim();
     if (!message) {
