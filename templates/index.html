@@ -331,19 +331,15 @@
   <button class="next-btn" data-next="finalSection" style="display: none;">Finalize Checklist</button>
 </section>
      <!-- FINAL SECTION: Radar Chart & Overall Score -->
-    <section class="results-section" id="finalSection" style="display: none;">
-      <h2>Your Overall AI Readiness</h2>
-      <p class="final-note">
-        Here is your total readiness score across all sections, along with a radar chart
-        illustrating strengths and weaknesses.
-      </p>
-      <div id="compositeScoreContainer">
-        <h3>Overall Readiness: <span id="compositeScoreDisplay"></span></h3>
-        <p id="indicatorDisplay"></p>
-      </div>
-      <canvas id="radarChart" width="400" height="400"></canvas>
-      <button class="next-btn" data-next="chatContainer">Go to Chat</button>
-    </section>
+   <section class="results-section" id="finalSection" style="display: none;">
+  <h2>Your Overall AI Readiness</h2>
+  <div id="compositeScoreContainer">
+    <h3>Overall Readiness: <span id="compositeScoreDisplay"></span></h3>
+    <p id="indicatorDisplay"></p>
+  </div>
+  <canvas id="radarChart" width="400" height="400"></canvas>
+  <button class="next-btn" data-next="chatContainer">Go to Chat</button>
+</section>
 
     <!-- CHAT SECTION -->
     <section class="chat-section" id="chatContainer" style="display: none;">
