@@ -1,167 +1,81 @@
-body {
+/* GENERAL RESET */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif;
-  background: #f8f9fa;
+}
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f2f5;
   color: #333;
 }
 
+/* HEADER */
 header {
-  background: #ffffff;
-  border-bottom: 1px solid #e5e5e5;
+  background: #001f3f; /* NAVY BLUE */
   padding: 20px;
   text-align: center;
 }
-
 header h1 {
+  color: #fff;
   font-size: 2em;
-  margin: 0;
-  color: #333;
 }
 
+/* MAIN CONTENT */
 main {
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 800px;
+  margin: 20px auto;
   padding: 20px;
 }
 
-/* Intro Section */
+/* INTRO SECTION */
 .intro-section {
-  background: #e6f7ff; /* a soft pastel blue */
+  background: #ffffff;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 6px;
   margin-bottom: 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-
 .intro-section h2 {
-  margin-top: 0;
-}
-
-/* Checklist Sections */
-.checklist-section {
-  background: #fef9e7; /* a soft pastel yellow */
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  display: none; /* hidden by default, shown by JS */
-}
-
-.checklist-section h2 {
-  margin-top: 0;
   margin-bottom: 15px;
 }
 
-/* Section Content Styling */
+/* CHECKLIST SECTIONS */
+.checklist-section {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 6px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: none; /* hidden by JS */
+}
+.checklist-section h2 {
+  margin-bottom: 15px;
+}
 .section-content {
   margin-bottom: 20px;
 }
-
-.section-content form h3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  font-size: 1.1em;
-  color: #333;
-}
-
 .section-content label {
+  display: inline-block;
+  margin-bottom: 5px;
   font-size: 0.95em;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
-/* Section Score */
+/* SCORES & INDICATORS */
 .section-score {
-  background: #ffffff;
+  background: #f9f9f9;
   border: 1px solid #ddd;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 10px;
-  margin-top: 20px;
-  display: none;
+  margin-bottom: 15px;
+  display: none; 
 }
-
-/* Buttons */
-.next-btn, .calc-section-btn, #chatBtn {
-  background: #007BFF;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 6px;
-  font-size: 0.95em;
-  margin-top: 20px;
-}
-
-.next-btn:hover, .calc-section-btn:hover, #chatBtn:hover {
-  background: #0069d9;
-}
-
-.next-btn:disabled, .calc-section-btn:disabled, #chatBtn:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-/* Results Section (Radar Chart) */
-.results-section {
-  background: #eafbea; /* a soft pastel green */
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  display: none;
-}
-
-#compositeScoreContainer {
-  margin-bottom: 20px;
-}
-
-#compositeScoreDisplay {
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-#indicatorDisplay {
-  font-weight: bold;
-  font-size: 1.1em;
-}
-
-/* Smaller radar chart */
-#radarChart {
-  max-width: 300px;
-  margin: 0 auto;
-}
-
-/* Chat Section */
-.chat-section {
-  background: #f4e6ff; /* soft pastel purple */
-  padding: 20px;
-  border-radius: 8px;
-  display: none;
-}
-
-#chatInput {
-  width: 70%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-right: 10px;
-  font-size: 0.95em;
-}
-
-#chatResponse {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 10px;
-  margin-top: 20px;
-  min-height: 50px;
-}
-
-/* Indicators (Red/Yellow/Green) */
 .score-indicator {
-  font-weight: bold;
   display: block;
-  margin-top: 10px;
+  font-weight: bold;
+  margin-top: 5px;
 }
-
-/* Colors for indicators */
 .score-indicator.green {
   color: green;
 }
@@ -170,4 +84,89 @@ main {
 }
 .score-indicator.red {
   color: red;
+}
+
+/* BUTTONS */
+.next-btn, .calc-section-btn, #chatBtn {
+  background: #001f3f; /* NAVY */
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.95em;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.next-btn:hover, .calc-section-btn:hover, #chatBtn:hover {
+  background: #003366; /* darker navy on hover */
+}
+
+/* RESULTS SECTION (FINAL) */
+.results-section {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+  display: none;
+}
+#compositeScoreContainer {
+  margin-bottom: 15px;
+}
+#compositeScoreDisplay {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+#indicatorDisplay {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#radarChart {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* CHAT SECTION */
+.chat-section {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: none;
+}
+.chat-section h2 {
+  margin-bottom: 15px;
+}
+#chatInput {
+  width: 70%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95em;
+  margin-right: 10px;
+}
+#chatResponse {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  margin-top: 15px;
+  min-height: 50px;
+}
+
+/* UTILITY / RESPONSIVE */
+@media (max-width: 600px) {
+  main {
+    margin: 10px auto;
+    padding: 10px;
+  }
+  .next-btn, .calc-section-btn, #chatBtn {
+    width: 100%;
+    margin-top: 10px;
+  }
+  #chatInput {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }
