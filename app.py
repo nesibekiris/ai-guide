@@ -1,11 +1,18 @@
-from flask import Flask, render_template, request, jsonify
 import os
-import openai
+import requests
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# OpenAI API key from environment
-openai.api_key = os.environ.get('OPENAI_API_KEY', '')
+# Hugging Face Inference API Settings
+# Make sure to set HUGGINGFACE_API_TOKEN in your Render environment variables.
+HUGGINGFACE_API_TOKEN = os.environ.get('HUGGINGFACE_API_TOKEN', '')
+API_URL = "https://api-inference.huggingface.co/models/OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5"
+
+headers = {
+    "Authorization": f"Bearer {HUGGINGFACE_API_TOKEN}",
+    "Content-Type": "application/json"
+}
 
 @app.route('/')
 def index():
@@ -13,23 +20,20 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    # Define sections, their questions, and weights
-    # Add or remove sections and questions as you expand the checklist.
+    # Weighted scoring logic as before
     questions_by_section = {
         "Organizational Strategy and Readiness": {
             "questions": ["org_q1", "org_q2"],
-            "weight": 1.5,   # High priority section
-            "max_points": 2   # 2 questions, each max 1 point if "Yes"
+            "weight": 1.5,
+            "max_points": 2
         },
         "Data Preparedness": {
             "questions": ["data_q1", "data_q2"],
-            "weight": 1.0,   # Medium priority
+            "weight": 1.0,
             "max_points": 2
         }
-        # Add more sections similarly...
     }
 
-    # Calculate scores
     section_scores = {}
     total_weight = 0
     weighted_sum = 0
@@ -46,24 +50,16 @@ def submit():
                 section_score += 1
             elif answer == "Partial":
                 section_score += 0.5
-            # No adds 0
 
-        # Normalize section score (0 to 1)
         normalized_score = section_score / max_points
-
-        # Weighted contribution
         weighted_contribution = normalized_score * weight
         weighted_sum += weighted_contribution
         total_weight += weight
-
-        # Store normalized scores in the results
         section_scores[section] = normalized_score
 
-    # Compute the composite readiness score (0 to 1)
     composite_score = weighted_sum / total_weight if total_weight > 0 else 0
     composite_percentage = composite_score * 100
 
-    # Determine traffic light indicator based on composite score
     if composite_percentage >= 80:
         indicator = "Green"
     elif composite_percentage >= 50:
@@ -71,8 +67,6 @@ def submit():
     else:
         indicator = "Red"
 
-    # Return JSON with section-wise normalized scores, composite score, and indicator
-    # We'll use normalized scores (0-1) for the radar chart.
     return jsonify({
         "section_scores": section_scores,
         "composite_score": composite_percentage,
@@ -82,22 +76,29 @@ def submit():
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.form.get('message', '').strip()
-    if not openai.api_key:
-        return jsonify({"answer": "OpenAI API key not set. Please configure it on Render."})
+    if not user_message:
+        return jsonify({"answer": "Please ask a question."})
 
-    prompt = (
-        "You are an AI consultant helping organizations improve their AI readiness. "
-        "The user has asked: " + user_message + ". Provide a concise and actionable suggestion."
-    )
+    # Prompt for the OA model
+    prompt = f"You are an AI assistant helping with AI readiness. The user says: {user_message}\nPlease provide a helpful, concise suggestion."
 
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        max_tokens=150,
-        temperature=0.7
-    )
-    answer = response.choices[0].text.strip()
-    return jsonify({"answer": answer})
+    data = {
+        "inputs": prompt
+    }
+
+    response = requests.post(API_URL, headers=headers, json=data)
+    if response.status_code == 200:
+        # The response from HF Inference API is usually a list of dicts with "generated_text"
+        result = response.json()
+        if isinstance(result, list) and "generated_text" in result[0]:
+            answer = result[0]["generated_text"]
+            # answer might include the prompt; you can strip it
+            final_answer = answer.replace(prompt, "").strip()
+            return jsonify({"answer": final_answer})
+        else:
+            return jsonify({"answer": "No response from model."})
+    else:
+        return jsonify({"answer": f"Error: {response.status_code}, {response.text}"}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
