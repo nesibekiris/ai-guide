@@ -4,55 +4,91 @@ import openai
 
 app = Flask(__name__)
 
-# Set your OpenAI API key via Render’s environment variable
+# OpenAI API key from environment
 openai.api_key = os.environ.get('OPENAI_API_KEY', '')
 
 @app.route('/')
 def index():
-    # Renders the main page with the checklist form
     return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    # Extract form data and calculate scores
-    # For demonstration, we’ll use a small sample of questions. 
-    # You should expand this based on your checklist needs.
-
-    # Example sections and questions:
-    # Adjust these as you add more sections/questions
+    # Define sections, their questions, and weights
+    # Add or remove sections and questions as you expand the checklist.
     questions_by_section = {
-        "Organizational Strategy and Readiness": ["org_q1", "org_q2"],
-        "Data Preparedness": ["data_q1", "data_q2"]
-        # Add more sections and questions here
+        "Organizational Strategy and Readiness": {
+            "questions": ["org_q1", "org_q2"],
+            "weight": 1.5,   # High priority section
+            "max_points": 2   # 2 questions, each max 1 point if "Yes"
+        },
+        "Data Preparedness": {
+            "questions": ["data_q1", "data_q2"],
+            "weight": 1.0,   # Medium priority
+            "max_points": 2
+        }
+        # Add more sections similarly...
     }
 
-    results = {}
-    for section, questions in questions_by_section.items():
-        section_score = 0
-        count = len(questions)
-        for q in questions:
+    # Calculate scores
+    section_scores = {}
+    total_weight = 0
+    weighted_sum = 0
+
+    for section, data in questions_by_section.items():
+        q_list = data["questions"]
+        weight = data["weight"]
+        max_points = data["max_points"]
+
+        section_score = 0.0
+        for q in q_list:
             answer = request.form.get(q, "No")
             if answer == "Yes":
                 section_score += 1
             elif answer == "Partial":
                 section_score += 0.5
-            # No = 0 points, so no addition
-        # You can use total score or an average, here we’ll just use the total score
-        results[section] = section_score
+            # No adds 0
 
-    return jsonify(results)
+        # Normalize section score (0 to 1)
+        normalized_score = section_score / max_points
+
+        # Weighted contribution
+        weighted_contribution = normalized_score * weight
+        weighted_sum += weighted_contribution
+        total_weight += weight
+
+        # Store normalized scores in the results
+        section_scores[section] = normalized_score
+
+    # Compute the composite readiness score (0 to 1)
+    composite_score = weighted_sum / total_weight if total_weight > 0 else 0
+    composite_percentage = composite_score * 100
+
+    # Determine traffic light indicator based on composite score
+    if composite_percentage >= 80:
+        indicator = "Green"
+    elif composite_percentage >= 50:
+        indicator = "Yellow"
+    else:
+        indicator = "Red"
+
+    # Return JSON with section-wise normalized scores, composite score, and indicator
+    # We'll use normalized scores (0-1) for the radar chart.
+    return jsonify({
+        "section_scores": section_scores,
+        "composite_score": composite_percentage,
+        "indicator": indicator
+    })
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    # Get the user’s question and scores
-    user_message = request.form.get('message', '')
-    # In a real scenario, you might also include user scores in the prompt
-    # For now, we’ll just demonstrate a simple prompt
-    prompt = f"You are an AI expert helping organizations improve their AI readiness. The user says: {user_message}. Give a helpful, concise suggestion."
-
-    if openai.api_key == '':
-        # If no API key is set, return a placeholder message
+    user_message = request.form.get('message', '').strip()
+    if not openai.api_key:
         return jsonify({"answer": "OpenAI API key not set. Please configure it on Render."})
+
+    prompt = (
+        "You are an AI consultant helping organizations improve their AI readiness. "
+        "The user has asked: " + user_message + ". Provide a concise and actionable suggestion."
+    )
 
     response = openai.Completion.create(
         engine="text-davinci-003",
@@ -60,7 +96,6 @@ def chat():
         max_tokens=150,
         temperature=0.7
     )
-
     answer = response.choices[0].text.strip()
     return jsonify({"answer": answer})
 
