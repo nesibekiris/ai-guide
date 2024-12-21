@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Readiness Checklist</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>AI Readiness Checklist</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Organizational Strategy and Readiness</h2>
+      <form id="checklistForm">
+        <div class="question">
+          <label>Do you have a clearly defined AI strategy?
+            <br>
+            <input type="radio" name="org_q1" value="Yes">Yes
+            <input type="radio" name="org_q1" value="Partial">Partial
+            <input type="radio" name="org_q1" value="No" checked>No
+          </label>
+        </div>
+
+        <div class="question">
+          <label>Do you have executive sponsorship for AI initiatives?
+            <br>
+            <input type="radio" name="org_q2" value="Yes">Yes
+            <input type="radio" name="org_q2" value="Partial">Partial
+            <input type="radio" name="org_q2" value="No" checked>No
+          </label>
+        </div>
+
+        <h2>Data Preparedness</h2>
+        <div class="question">
+          <label>Is your data well-structured and easily accessible?
+            <br>
+            <input type="radio" name="data_q1" value="Yes">Yes
+            <input type="radio" name="data_q1" value="Partial">Partial
+            <input type="radio" name="data_q1" value="No" checked>No
+          </label>
+        </div>
+
+        <div class="question">
+          <label>Do you have sufficient historical data for AI training?
+            <br>
+            <input type="radio" name="data_q2" value="Yes">Yes
+            <input type="radio" name="data_q2" value="Partial">Partial
+            <input type="radio" name="data_q2" value="No" checked>No
+          </label>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <section class="results-section">
+      <h2>Your Readiness Radar Chart</h2>
+      <canvas id="radarChart" width="400" height="400"></canvas>
+    </section>
+
+    <section class="chat-section">
+      <h2>Chat with the AI Advisor</h2>
+      <input type="text" id="chatInput" placeholder="Ask a question...">
+      <button id="chatBtn">Send</button>
+      <div id="chatResponse"></div>
+    </section>
+  </main>
+
+  <script src="/static/js/script.js"></script>
+</body>
+</html>
