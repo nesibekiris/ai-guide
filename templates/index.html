@@ -198,103 +198,138 @@
       <button class="next-btn" data-next="section3" style="display: none;">Next: Technology & Infrastructure</button>
     </section>
 
-    <!-- 3. Technology and Infrastructure -->
-    <section class="checklist-section" id="section3" style="display: none;">
-      <h2>3. Technology and Infrastructure</h2>
-      <!-- Similar pattern: form + questions + calc button + partial score + next button -->
-      <!-- ... -->
+   <!-- 3. Technology and Infrastructure -->
+<section class="checklist-section" id="section3" style="display: none;">
+  <h2>3. Technology and Infrastructure</h2>
+  <p><strong>Focus:</strong> Compute capacity, scalability, integration, resilience, and sustainability.</p>
+  <div class="section-content">
+    <form id="formSection3">
+      <h3>(1) Compute and Scalability</h3>
+      <label>Does your infrastructure support AI’s storage and compute needs (e.g., GPUs, cloud)?</label><br/>
+      <input type="radio" name="tech_s3_q1" value="Yes">Yes
+      <input type="radio" name="tech_s3_q1" value="Partial">Partial
+      <input type="radio" name="tech_s3_q1" value="No" checked>No
+      <br/><br/>
+    </form>
+  </div>
+  <div class="section-score" id="scoreSection3"></div>
+  <button type="button" class="calc-section-btn" data-section="3">Calculate Section Score</button>
+  <button class="next-btn" data-next="section4" style="display: none;">Next: Governance & Ethics</button>
+</section>
 
-      <button class="calc-section-btn" data-section="3">Calculate Section Score</button>
-      <div class="section-score" id="scoreSection3"></div>
-      <button class="next-btn" data-next="section4" style="display: none;">Next: Governance & Ethics</button>
-    </section>
+<!-- 4. Governance, Compliance, and Ethics -->
+<section class="checklist-section" id="section4" style="display: none;">
+  <h2>4. Governance, Compliance, and Ethics</h2>
+  <p><strong>Focus:</strong> Governance frameworks, ethical standards, regulatory compliance, bias management.</p>
+  <div class="section-content">
+    <form id="formSection4">
+      <h3>(1) Governance Framework</h3>
+      <label>Have governance roles and responsibilities for AI oversight been clearly defined?</label><br/>
+      <input type="radio" name="gov_s4_q1" value="Yes">Yes
+      <input type="radio" name="gov_s4_q1" value="Partial">Partial
+      <input type="radio" name="gov_s4_q1" value="No" checked>No
+      <br/><br/>
+    </form>
+  </div>
+  <div class="section-score" id="scoreSection4"></div>
+  <button type="button" class="calc-section-btn" data-section="4">Calculate Section Score</button>
+  <button class="next-btn" data-next="section5" style="display: none;">Next: Workforce & Culture</button>
+</section>
 
-    <!-- 4. Governance, Compliance, and Ethics -->
-    <section class="checklist-section" id="section4" style="display: none;">
-      <h2>4. Governance, Compliance, and Ethics</h2>
-      <!-- replicate all sub-questions from your large content -->
-      <!-- ... -->
-      <button class="calc-section-btn" data-section="4">Calculate Section Score</button>
-      <div class="section-score" id="scoreSection4"></div>
-      <button class="next-btn" data-next="section5" style="display: none;">Next: Workforce & Culture</button>
-    </section>
+<!-- 5. Workforce and Culture -->
+<section class="checklist-section" id="section5" style="display: none;">
+  <h2>5. Workforce and Culture</h2>
+  <p><strong>Focus:</strong> Skill development, ethical awareness, cultural adaptation, collaboration.</p>
+  <div class="section-content">
+    <form id="formSection5">
+      <h3>(1) Skill Development</h3>
+      <label>Are upskilling programs in place for technical and non-technical teams to understand and work with AI?</label><br/>
+      <input type="radio" name="work_s5_q1" value="Yes">Yes
+      <input type="radio" name="work_s5_q1" value="Partial">Partial
+      <input type="radio" name="work_s5_q1" value="No" checked>No
+      <br/><br/>
+    </form>
+  </div>
+  <div class="section-score" id="scoreSection5"></div>
+  <button type="button" class="calc-section-btn" data-section="5">Calculate Section Score</button>
+  <button class="next-btn" data-next="section6" style="display: none;">Next: Implementation & Operations</button>
+</section>
 
-    <!-- 5. Workforce and Culture -->
-    <section class="checklist-section" id="section5" style="display: none;">
-      <h2>5. Workforce and Culture</h2>
-      <!-- replicate your content sub-questions -->
-      <!-- ... -->
-      <button class="calc-section-btn" data-section="5">Calculate Section Score</button>
-      <div class="section-score" id="scoreSection5"></div>
-      <button class="next-btn" data-next="section6" style="display: none;">Next: Implementation & Operations</button>
-    </section>
+<!-- 6. Implementation and Operations -->
+<section class="checklist-section" id="section6" style="display: none;">
+  <h2>6. Implementation and Operations</h2>
+  <p><strong>Focus:</strong> Pilot projects, deployment roadmap, operational efficiency, stakeholder engagement.</p>
+  <div class="section-content">
+    <form id="formSection6">
+      <h3>(1) Pilot Projects</h3>
+      <label>Are pilot projects conducted to test AI solutions before full deployment?</label><br/>
+      <input type="radio" name="impl_s6_q1" value="Yes">Yes
+      <input type="radio" name="impl_s6_q1" value="Partial">Partial
+      <input type="radio" name="impl_s6_q1" value="No" checked>No
+      <br/><br/>
+    </form>
+  </div>
+  <div class="section-score" id="scoreSection6"></div>
+  <button type="button" class="calc-section-btn" data-section="6">Calculate Section Score</button>
+  <button class="next-btn" data-next="section7" style="display: none;">Next: Risk & Security</button>
+</section>
 
-    <!-- 6. Implementation and Operations -->
-    <section class="checklist-section" id="section6" style="display: none;">
-      <h2>6. Implementation and Operations</h2>
-      <!-- replicate sub-questions -->
-      <!-- ... -->
-      <button class="calc-section-btn" data-section="6">Calculate Section Score</button>
-      <div class="section-score" id="scoreSection6"></div>
-      <button class="next-btn" data-next="section7" style="display: none;">Next: Risk & Security</button>
-    </section>
+<!-- 7. Risk and Security -->
+<section class="checklist-section" id="section7" style="display: none;">
+  <h2>7. Risk and Security</h2>
+  <p><strong>Focus:</strong> Risk assessments, cybersecurity measures, model integrity, disaster recovery.</p>
+  <div class="section-content">
+    <form id="formSection7">
+      <h3>(1) Risk Assessment</h3>
+      <label>Are contingency plans in place to address identified AI-related risks?</label><br/>
+      <input type="radio" name="risk_s7_q1" value="Yes">Yes
+      <input type="radio" name="risk_s7_q1" value="Partial">Partial
+      <input type="radio" name="risk_s7_q1" value="No" checked>No
+      <br/><br/>
+    </form>
+  </div>
+  <div class="section-score" id="scoreSection7"></div>
+  <button type="button" class="calc-section-btn" data-section="7">Calculate Section Score</button>
+  <button class="next-btn" data-next="section8" style="display: none;">Next: Finance & ROI</button>
+</section>
 
-    <!-- 7. Risk and Security -->
-    <section class="checklist-section" id="section7" style="display: none;">
-      <h2>7. Risk and Security</h2>
-      <!-- replicate sub-questions -->
-      <!-- ... -->
-      <button class="calc-section-btn" data-section="7">Calculate Section Score</button>
-      <div class="section-score" id="scoreSection7"></div>
-      <button class="next-btn" data-next="section8" style="display: none;">Next: Finance & ROI</button>
-    </section>
+<!-- 8. Finance and ROI Preparedness -->
+<section class="checklist-section" id="section8" style="display: none;">
+  <h2>8. Finance and ROI Preparedness</h2>
+  <p><strong>Focus:</strong> Budget allocation, cost analysis, ROI metrics, financial oversight.</p>
+  <div class="section-content">
+    <form id="formSection8">
+      <h3>(1) Budget Allocation</h3>
+      <label>Has a specific budget been allocated for AI projects?</label><br/>
+      <input type="radio" name="fin_s8_q1" value="Yes">Yes
+      <input type="radio" name="fin_s8_q1" value="Partial">Partial
+      <input type="radio" name="fin_s8_q1" value="No" checked>No
+      <br/><br/>
+    </form>
+  </div>
+  <div class="section-score" id="scoreSection8"></div>
+  <button type="button" class="calc-section-btn" data-section="8">Calculate Section Score</button>
+  <button class="next-btn" data-next="section9" style="display: none;">Next: Continuous Learning & Innovation</button>
+</section>
 
-    <!-- 8. Finance and ROI Preparedness -->
-    <section class="checklist-section" id="section8" style="display: none;">
-      <h2>8. Finance and ROI Preparedness</h2>
-      <!-- replicate sub-questions from your big content -->
-      <!-- ... -->
-      <button class="calc-section-btn" data-section="8">Calculate Section Score</button>
-      <div class="section-score" id="scoreSection8"></div>
-      <button class="next-btn" data-next="section9" style="display: none;">Next: Continuous Learning & Innovation</button>
-    </section>
-
-    <!-- 9. Continuous Learning and Innovation -->
-    <section class="checklist-section" id="section9" style="display: none;">
-      <h2>9. Continuous Learning and Innovation</h2>
-      <!-- replicate sub-questions -->
-      <!-- ... -->
-      <button class="calc-section-btn" data-section="9">Calculate Section Score</button>
-      <div class="section-score" id="scoreSection9"></div>
-      <button class="next-btn" data-next="finalSection" style="display: none;">Finalize Checklist</button>
-    </section>
-
-    <!-- Final Step: Summaries and Radar Chart -->
-    <section class="results-section" id="finalSection" style="display: none;">
-      <h2>Your Overall AI Readiness</h2>
-      <p>
-        Here is your total readiness score across all 9 sections, along with a radar chart 
-        illustrating strengths and weaknesses.
-      </p>
-      <div id="compositeScoreContainer">
-        <h3>Overall Readiness: <span id="compositeScoreDisplay"></span></h3>
-        <p id="indicatorDisplay"></p>
-      </div>
-      <canvas id="radarChart" width="400" height="400"></canvas>
-      <button class="next-btn" data-next="chatContainer">Go to Chat</button>
-    </section>
-
-    <!-- Chat Section -->
-    <section class="chat-section" id="chatContainer" style="display: none;">
-      <h2>Chat with the AI Advisor</h2>
-      <p>
-        Ask further questions about your AI readiness, get advice, 
-        or discuss next steps for your organization.
-      </p>
-      <input type="text" id="chatInput" placeholder="Ask a question..." />
-      <button id="chatBtn">Send</button>
-      <div id="chatResponse"></div>
-    </section>
+<!-- 9. Continuous Learning and Innovation -->
+<section class="checklist-section" id="section9" style="display: none;">
+  <h2>9. Continuous Learning and Innovation</h2>
+  <p><strong>Focus:</strong> Feedback loops, partnerships, adapting to AI advancements, benchmarking.</p>
+  <div class="section-content">
+    <form id="formSection9">
+      <h3>(1) Feedback Loops</h3>
+      <label>Are feedback mechanisms in place to continuously refine AI models?</label><br/>
+      <input type="radio" name="innov_s9_q1" value="Yes">Yes
+      <input type="radio" name="innov_s9_q1" value="Partial">Partial
+      <input type="radio" name="innov_s9_q1" value="No" checked>No
+      <br/><br/>
+    </form>
+  </div>
+  <div class="section-score" id="scoreSection9"></div>
+  <button type="button" class="calc-section-btn" data-section="9">Calculate Section Score</button>
+  <button class="next-btn" data-next="finalSection" style="display: none;">Finalize Checklist</button>
+</section>
 
   </main>
 </body>
