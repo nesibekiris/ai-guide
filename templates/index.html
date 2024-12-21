@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Readiness Checklist</title>
-  <link rel="stylesheet" href="/static/css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- We will add a link to style.css in Part 2 -->
+  <!-- We will also add Chart.js and our script.js in Part 2 -->
 </head>
 <body>
   <header>
@@ -13,70 +13,282 @@
   </header>
 
   <main>
-    <!-- Checklist Form -->
-    <section>
-      <form id="checklistForm">
-        <h2>Organizational Strategy and Readiness</h2>
-        <div class="question">
-          <label>Do you have a clearly defined AI strategy?
-            <br>
-            <input type="radio" name="org_q1" value="Yes">Yes
-            <input type="radio" name="org_q1" value="Partial">Partial
-            <input type="radio" name="org_q1" value="No" checked>No
-          </label>
-        </div>
+    <!-- Intro Section -->
+    <section class="intro-section" id="introSection">
+      <h2>Welcome to the AI Readiness Checklist for Organizations</h2>
+      <p>
+        Your comprehensive guide to evaluating and preparing for successful AI adoption. 
+        This checklist is designed to help organizations assess their capabilities, identify gaps, 
+        and take actionable steps toward integrating AI responsibly and effectively.
+      </p>
+      <h3>How to Use This Checklist</h3>
+      <ul>
+        <li>Many activities may occur in parallel (e.g., governance frameworks + data infrastructure).</li>
+        <li>Sections follow best practices, from foundational elements to execution and improvement.</li>
+        <li>Tailor the checklist to your organization’s needs and goals.</li>
+      </ul>
+      <p>
+        Think of this checklist as a roadmap rather than a strict timeline. It’s designed to guide you 
+        through the complex journey of AI implementation while allowing flexibility.
+      </p>
 
-        <div class="question">
-          <label>Do you have executive sponsorship for AI initiatives?
-            <br>
-            <input type="radio" name="org_q2" value="Yes">Yes
-            <input type="radio" name="org_q2" value="Partial">Partial
-            <input type="radio" name="org_q2" value="No" checked>No
-          </label>
-        </div>
-
-        <h2>Data Preparedness</h2>
-        <div class="question">
-          <label>Is your data well-structured and easily accessible?
-            <br>
-            <input type="radio" name="data_q1" value="Yes">Yes
-            <input type="radio" name="data_q1" value="Partial">Partial
-            <input type="radio" name="data_q1" value="No" checked>No
-          </label>
-        </div>
-
-        <div class="question">
-          <label>Do you have sufficient historical data for AI training?
-            <br>
-            <input type="radio" name="data_q2" value="Yes">Yes
-            <input type="radio" name="data_q2" value="Partial">Partial
-            <input type="radio" name="data_q2" value="No" checked>No
-          </label>
-        </div>
-
-        <button type="submit">Submit</button>
-      </form>
+      <h3>A Logical Flow with Flexibility</h3>
+      <p>
+        The checklist is divided into 10 major sections, each addressing a critical area of AI readiness:
+      </p>
+      <ol>
+        <li>Strategy and Vision – Establish your purpose and goals for AI.</li>
+        <li>Data Preparedness – Ensure your data is ready for AI initiatives.</li>
+        <li>Technology and Infrastructure – Equip your organization with the necessary tools.</li>
+        <li>Governance, Compliance, and Ethics – Build the foundation for responsible AI use.</li>
+        <li>Workforce and Culture – Prepare your people for AI adoption.</li>
+        <li>Implementation and Operations – Transition from planning to action.</li>
+        <li>Risk and Security – Safeguard your systems and address vulnerabilities.</li>
+        <li>Financial and ROI Preparedness – Evaluate costs and measure success.</li>
+        <li>Continuous Learning and Innovation – Stay adaptable and forward-thinking.</li>
+      </ol>
+      <p>
+        This structure allows you to tackle AI readiness systematically while understanding that 
+        some areas will naturally overlap.
+      </p>
+      <button class="next-btn" data-next="section1">Start Checklist</button>
     </section>
 
-    <!-- Radar Chart Section -->
-    <section class="results-section">
-      <h2>Your Readiness Radar Chart</h2>
-      <canvas id="radarChart" width="400" height="400"></canvas>
+    <!-- 1. Organizational Strategy and Readiness -->
+    <section class="checklist-section" id="section1" style="display: none;">
+      <h2>1. Organizational Strategy and Readiness</h2>
+      <p>
+        <strong>Focus:</strong> Establishing AI's role in achieving business outcomes, leadership engagement, 
+        organizational structures, change management, and metrics.
+      </p>
+      <div class="section-content">
+        <form id="formSection1">
+          <!-- (A) Strategic Alignment -->
+          <h3>(1) Strategic Alignment</h3>
+          <label>Have you defined AI’s role in achieving business outcomes?</label><br/>
+          <input type="radio" name="org_s1_q1" value="Yes">Yes
+          <input type="radio" name="org_s1_q1" value="Partial">Partial
+          <input type="radio" name="org_s1_q1" value="No" checked>No
+          <br/><br/>
+
+          <label>Are specific use cases prioritized based on feasibility and ROI?</label><br/>
+          <input type="radio" name="org_s1_q2" value="Yes">Yes
+          <input type="radio" name="org_s1_q2" value="Partial">Partial
+          <input type="radio" name="org_s1_q2" value="No" checked>No
+          <br/><br/>
+
+          <label>Is there a roadmap for AI initiatives over the next 1–3 years?</label><br/>
+          <input type="radio" name="org_s1_q3" value="Yes">Yes
+          <input type="radio" name="org_s1_q3" value="Partial">Partial
+          <input type="radio" name="org_s1_q3" value="No" checked>No
+          <br/><br/>
+
+          <!-- (B) Leadership and Stakeholder Engagement -->
+          <h3>(2) Leadership and Stakeholder Engagement</h3>
+          <label>Is leadership actively supporting AI adoption through resources/funding?</label><br/>
+          <input type="radio" name="org_s1_q4" value="Yes">Yes
+          <input type="radio" name="org_s1_q4" value="Partial">Partial
+          <input type="radio" name="org_s1_q4" value="No" checked>No
+          <br/><br/>
+
+          <label>Are stakeholders involved in defining and updating AI goals?</label><br/>
+          <input type="radio" name="org_s1_q5" value="Yes">Yes
+          <input type="radio" name="org_s1_q5" value="Partial">Partial
+          <input type="radio" name="org_s1_q5" value="No" checked>No
+          <br/><br/>
+
+          <label>Have external stakeholders (e.g., customers, partners) been involved?</label><br/>
+          <input type="radio" name="org_s1_q6" value="Yes">Yes
+          <input type="radio" name="org_s1_q6" value="Partial">Partial
+          <input type="radio" name="org_s1_q6" value="No" checked>No
+          <br/><br/>
+
+          <!-- (C) Organizational Structure -->
+          <h3>(3) Organizational Structure</h3>
+          <label>Have you established an advisory/governance team for AI?</label><br/>
+          <input type="radio" name="org_s1_q7" value="Yes">Yes
+          <input type="radio" name="org_s1_q7" value="Partial">Partial
+          <input type="radio" name="org_s1_q7" value="No" checked>No
+          <br/><br/>
+
+          <label>Is there a formal mechanism to integrate AI goals across departments?</label><br/>
+          <input type="radio" name="org_s1_q8" value="Yes">Yes
+          <input type="radio" name="org_s1_q8" value="Partial">Partial
+          <input type="radio" name="org_s1_q8" value="No" checked>No
+          <br/><br/>
+
+          <!-- (D) Change Management -->
+          <h3>(4) Change Management</h3>
+          <label>Are plans in place to address cultural/operational shifts from AI?</label><br/>
+          <input type="radio" name="org_s1_q9" value="Yes">Yes
+          <input type="radio" name="org_s1_q9" value="Partial">Partial
+          <input type="radio" name="org_s1_q9" value="No" checked>No
+          <br/><br/>
+
+          <label>Is regular communication ensuring alignment with employees/stakeholders?</label><br/>
+          <input type="radio" name="org_s1_q10" value="Yes">Yes
+          <input type="radio" name="org_s1_q10" value="Partial">Partial
+          <input type="radio" name="org_s1_q10" value="No" checked>No
+          <br/><br/>
+
+          <!-- (E) Metrics & Monitoring -->
+          <h3>(5) Metrics and Monitoring</h3>
+          <label>Have KPIs been set to evaluate the success of AI initiatives?</label><br/>
+          <input type="radio" name="org_s1_q11" value="Yes">Yes
+          <input type="radio" name="org_s1_q11" value="Partial">Partial
+          <input type="radio" name="org_s1_q11" value="No" checked>No
+          <br/><br/>
+
+          <label>Is there a system to track progress and refine strategies?</label><br/>
+          <input type="radio" name="org_s1_q12" value="Yes">Yes
+          <input type="radio" name="org_s1_q12" value="Partial">Partial
+          <input type="radio" name="org_s1_q12" value="No" checked>No
+          <br/><br/>
+
+          <!-- Button to Calculate this Section Score -->
+          <button type="button" class="calc-section-btn" data-section="1">Calculate Section Score</button>
+        </form>
+      </div>
+
+      <!-- Section 1 Partial Score Display -->
+      <div class="section-score" id="scoreSection1"></div>
+
+      <!-- Next button to move to Section 2 -->
+      <button class="next-btn" data-next="section2" style="display: none;">Next: Data Preparedness</button>
+    </section>
+
+
+    <!-- 2. Data Preparedness -->
+    <section class="checklist-section" id="section2" style="display: none;">
+      <h2>2. Data Preparedness</h2>
+      <p>
+        <strong>Focus:</strong> Data inventory, governance, quality, security, and bias considerations.
+      </p>
+      <div class="section-content">
+        <form id="formSection2">
+          <h3>(1) Data Inventory & Accessibility</h3>
+          <!-- multiple questions here, shortened for brevity in this example; replicate the pattern above -->
+          <label>Have you conducted a comprehensive audit of data sources?</label><br/>
+          <input type="radio" name="data_s2_q1" value="Yes">Yes
+          <input type="radio" name="data_s2_q1" value="Partial">Partial
+          <input type="radio" name="data_s2_q1" value="No" checked>No
+          <br/><br/>
+
+          <label>Are there mechanisms to handle real-time data ingestion?</label><br/>
+          <input type="radio" name="data_s2_q2" value="Yes">Yes
+          <input type="radio" name="data_s2_q2" value="Partial">Partial
+          <input type="radio" name="data_s2_q2" value="No" checked>No
+          <br/><br/>
+
+          <h3>(2) Data Governance and Policies</h3>
+          <!-- ... replicate more questions as needed from your content ... -->
+
+          <button type="button" class="calc-section-btn" data-section="2">Calculate Section Score</button>
+        </form>
+      </div>
+
+      <div class="section-score" id="scoreSection2"></div>
+      <button class="next-btn" data-next="section3" style="display: none;">Next: Technology & Infrastructure</button>
+    </section>
+
+    <!-- 3. Technology and Infrastructure -->
+    <section class="checklist-section" id="section3" style="display: none;">
+      <h2>3. Technology and Infrastructure</h2>
+      <!-- Similar pattern: form + questions + calc button + partial score + next button -->
+      <!-- ... -->
+
+      <button class="calc-section-btn" data-section="3">Calculate Section Score</button>
+      <div class="section-score" id="scoreSection3"></div>
+      <button class="next-btn" data-next="section4" style="display: none;">Next: Governance & Ethics</button>
+    </section>
+
+    <!-- 4. Governance, Compliance, and Ethics -->
+    <section class="checklist-section" id="section4" style="display: none;">
+      <h2>4. Governance, Compliance, and Ethics</h2>
+      <!-- replicate all sub-questions from your large content -->
+      <!-- ... -->
+      <button class="calc-section-btn" data-section="4">Calculate Section Score</button>
+      <div class="section-score" id="scoreSection4"></div>
+      <button class="next-btn" data-next="section5" style="display: none;">Next: Workforce & Culture</button>
+    </section>
+
+    <!-- 5. Workforce and Culture -->
+    <section class="checklist-section" id="section5" style="display: none;">
+      <h2>5. Workforce and Culture</h2>
+      <!-- replicate your content sub-questions -->
+      <!-- ... -->
+      <button class="calc-section-btn" data-section="5">Calculate Section Score</button>
+      <div class="section-score" id="scoreSection5"></div>
+      <button class="next-btn" data-next="section6" style="display: none;">Next: Implementation & Operations</button>
+    </section>
+
+    <!-- 6. Implementation and Operations -->
+    <section class="checklist-section" id="section6" style="display: none;">
+      <h2>6. Implementation and Operations</h2>
+      <!-- replicate sub-questions -->
+      <!-- ... -->
+      <button class="calc-section-btn" data-section="6">Calculate Section Score</button>
+      <div class="section-score" id="scoreSection6"></div>
+      <button class="next-btn" data-next="section7" style="display: none;">Next: Risk & Security</button>
+    </section>
+
+    <!-- 7. Risk and Security -->
+    <section class="checklist-section" id="section7" style="display: none;">
+      <h2>7. Risk and Security</h2>
+      <!-- replicate sub-questions -->
+      <!-- ... -->
+      <button class="calc-section-btn" data-section="7">Calculate Section Score</button>
+      <div class="section-score" id="scoreSection7"></div>
+      <button class="next-btn" data-next="section8" style="display: none;">Next: Finance & ROI</button>
+    </section>
+
+    <!-- 8. Finance and ROI Preparedness -->
+    <section class="checklist-section" id="section8" style="display: none;">
+      <h2>8. Finance and ROI Preparedness</h2>
+      <!-- replicate sub-questions from your big content -->
+      <!-- ... -->
+      <button class="calc-section-btn" data-section="8">Calculate Section Score</button>
+      <div class="section-score" id="scoreSection8"></div>
+      <button class="next-btn" data-next="section9" style="display: none;">Next: Continuous Learning & Innovation</button>
+    </section>
+
+    <!-- 9. Continuous Learning and Innovation -->
+    <section class="checklist-section" id="section9" style="display: none;">
+      <h2>9. Continuous Learning and Innovation</h2>
+      <!-- replicate sub-questions -->
+      <!-- ... -->
+      <button class="calc-section-btn" data-section="9">Calculate Section Score</button>
+      <div class="section-score" id="scoreSection9"></div>
+      <button class="next-btn" data-next="finalSection" style="display: none;">Finalize Checklist</button>
+    </section>
+
+    <!-- Final Step: Summaries and Radar Chart -->
+    <section class="results-section" id="finalSection" style="display: none;">
+      <h2>Your Overall AI Readiness</h2>
+      <p>
+        Here is your total readiness score across all 9 sections, along with a radar chart 
+        illustrating strengths and weaknesses.
+      </p>
       <div id="compositeScoreContainer">
         <h3>Overall Readiness: <span id="compositeScoreDisplay"></span></h3>
         <p id="indicatorDisplay"></p>
       </div>
+      <canvas id="radarChart" width="400" height="400"></canvas>
+      <button class="next-btn" data-next="chatContainer">Go to Chat</button>
     </section>
 
     <!-- Chat Section -->
-    <section class="chat-section">
+    <section class="chat-section" id="chatContainer" style="display: none;">
       <h2>Chat with the AI Advisor</h2>
-      <input type="text" id="chatInput" placeholder="Ask a question...">
+      <p>
+        Ask further questions about your AI readiness, get advice, 
+        or discuss next steps for your organization.
+      </p>
+      <input type="text" id="chatInput" placeholder="Ask a question..." />
       <button id="chatBtn">Send</button>
       <div id="chatResponse"></div>
     </section>
-  </main>
 
-  <script src="/static/js/script.js"></script>
+  </main>
 </body>
 </html>
